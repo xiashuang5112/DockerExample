@@ -1,0 +1,84 @@
+# Use root/example as user/password credentials
+version: '2'
+
+
+# services, version, networks, volumes, and extensions
+services:
+    restapi:
+        container_name: cmdb_server
+        build: ./cmdbServer
+        working_dir: /apps/server
+        command: python /apps/server/manage.py runserver 0.0.0.0:80
+#        command: bash
+#        volumes:
+#            - ./cmdb:/apps/server
+        ports:
+            - 80:80
+        depends_on:
+            - cmdb.mysql
+        environment:
+            - DEBUG=true
+            - DATABASE_NAME=dbname
+            - DATABASE_USER=user
+            - DATABASE_PASSWORD=********
+            - DATABASE_SERVICE_HOST=cmdbadmin_mysql
+            - DATABASE_SERVICE_PORT=3306
+            - BROKER_URL = amqp://admin:****@cmdb_rabbitmq:5672/apollo
+        networks:
+            - network-alias
+
+#    tasks:
+#        container_name: cmdb_tasks
+
+    cmdb.mysql:
+        # restart: always
+        container_name: cmdb_mysql
+        restart: unless-stopped
+        image: mysql:5.7.23
+        command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        user: mysql
+        # Errcode: 13 - Permission denied)
+        # volumes:
+          #     - /opt/mysql/data:/var/lib/mysql
+          #     - /etc/mysql/mysql.conf.d/mysqld.cnf:/tmp/docker/mysql/conf/mymysqld.cnf
+          # - /var/run/mysqld/mysqld.sock
+        environment:
+            - TZ=Asia/Shanghai
+            - MYSQL_DATABASE=dbname
+            - MYSQL_USER=user
+            - MYSQL_PASSWORD=********
+            - MYSQL_ROOT_PASSWORD=********
+#        ports:
+#            - 3306:3306
+        networks:
+            - network-alias
+
+#    cmdb.redis:
+#        restart: always
+#        container_name: cmdb_redis
+#        image: redis:4.0.11
+#        command: redis-server --requirepass devops_hqyg_123
+##        configs:
+##            - source: /tmp/test/redis/conf
+##              target: /usr/local/etc/redis
+#        ports:
+#            - 6379:6379
+
+    cmdb.rabbitmq:
+        restart: always
+        container_name: cmdb_rabbitmq
+        image: rabbitmq:3.7.3
+#        ports:
+#            - 15672:15672
+#            - 5672:5672
+        environment:
+          - RABBITMQ_DEFAULT_VHOST=cmdb
+
+
+# first create network
+# docker network create network-alias
+# docker network create -d bridge network-alias
+networks:
+    network-alias:
+#        driver: bridge
+        external: true
