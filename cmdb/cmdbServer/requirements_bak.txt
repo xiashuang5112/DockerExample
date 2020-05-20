@@ -28,7 +28,7 @@ edgegrid-python==1.1.0
 et-xmlfile==1.0.1
 flower==0.9.2
 future==0.16.0
-httplib2==0.9.2
+httplib2==0.18.0
 idna==2.6
 ipy==0.83
 itypes==1.1.0
