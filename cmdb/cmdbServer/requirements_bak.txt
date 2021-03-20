@@ -33,7 +33,7 @@ idna==2.6
 ipy==0.83
 itypes==1.1.0
 jdcal==1.4
-jinja2==2.10
+jinja2==2.11.3
 kombu==3.0.37
 markdown==2.6.11
 markupsafe==1.0
