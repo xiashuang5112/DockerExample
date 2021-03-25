@@ -53,7 +53,7 @@ pyjwt==1.6.1
 pyopenssl==17.5.0
 python-dateutil==2.7.3
 pytz==2018.4
-pyyaml==3.12
+pyyaml==5.4
 requests==2.18.4
 rest-pandas==1.0.0
 shellescape==3.4.1
