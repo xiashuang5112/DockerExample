@@ -3,7 +3,7 @@ anyjson==0.3.3
 asn1crypto==0.24.0
 babel==2.5.3
 billiard==3.3.0.23
-celery==3.1.26.post2
+celery==5.2.2
 certifi==2018.4.16
 cffi==1.11.5; platform_python_implementation != 'PyPy'
 chardet==3.0.4
